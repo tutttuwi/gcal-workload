@@ -1,12 +1,18 @@
-# QuickFramer
+# Gcal-Workload
 
 ## Overview
 
-QuickFramer allows you to open another page within the browser.
+Google Calendarで工数管理するための拡張機能です。
 
 ## Demo
 
 - TBD
+
+## npm install
+
+```cmd
+npm install
+```
 
 ## Build
 
@@ -26,5 +32,3 @@ MIT
 ## Author
 
 t-tsutsui
-
-
