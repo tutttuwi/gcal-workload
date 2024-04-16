@@ -1,0 +1,148 @@
+html,
+body,
+#app {
+  width: 650px;
+  margin: 0;
+  padding: 0;
+}
+
+.popup-container * {
+  font-size: 18px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.tab-item {
+  min-width: 150px;
+  pointer: cursor;
+  /* border-right: solid 1px grey;
+  border-left: solid 1px grey; */
+}
+.item-border {
+  width: 1px;
+  height: 75%;
+  background-color: grey;
+}
+.tab-item-container {
+  background-color: #ccc;
+}
+
+.tab-active + .item-border-box {
+  opacity: 0;
+}
+.item-border-box:has(+ .tab-active) {
+  opacity: 0;
+}
+
+.tab-active {
+  background-color: #eee;
+  border-top: 1px solid #eee;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+  border-radius: 5px 5px 0px 0px;
+  /* position: relative; */
+}
+.tab-title-input {
+  width: 80%;
+  height: 90%;
+}
+
+/* .tab-active::before {
+  content: ' ';
+  background-color: #ccc;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+} */
+
+.tab-passive {
+  background-color: #ccc;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.iframe-input-url {
+  border-radius: 25px;
+}
+
+.iframe-input-url {
+  padding-left: 40px;
+}
+.iframe-favicon {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: 13px;
+  top: 10px;
+}
+.iframe-url {
+  position: relative;
+}
+
+.scroll_bar {
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+
+.scroll_bar {
+  --sb-track-color: #eee;
+  --sb-thumb-color: #0d6efd;
+  --sb-size: 3px;
+  scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+}
+
+.scroll_bar::-webkit-scrollbar {
+  width: var(--sb-size);
+  height: var(--sb-size);
+}
+
+.scroll_bar::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 6px;
+}
+
+.scroll_bar::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 6px;
+}
+
+.iframe-element {
+  /* transform-origin: 0 0; */
+  /* margin-top: -62.5%; */
+  /* transform: scale(0.6); */
+  /* transform: scale(0.984375); */
+  /* transform-origin: 0 0; */
+  /* transform: scale(0.6);
+  transform-origin: 0px 0px;
+  width: calc(650px / 0.6);
+  height: calc(500px / 0.6); */
+}
+
+.iframe-body {
+  flex-grow: 1;
+}
+
+/* 
+.iframe-url::before {
+  content: attr(data-item);
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: #fd8b8f;
+  border-radius: 10%;
+  margin-right: 5px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: center;
+  position: relative;
+  left: 40px;
+} */
+
+.popup-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}

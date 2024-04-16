@@ -1,0 +1,42 @@
+{
+  "appName": {
+    "message": "GoogleCalendar工数管理",
+    "description": "The name of the application"
+  },
+  "appShortName": {
+    "message": "GoogleCalendar工数管理",
+    "description": "The short_name (maximum of 12 characters recommended) is a short version of the app's name."
+  },
+  "appDescription": {
+    "message": "GoogleCalendar工数管理 allows you to open another page within the browser.",
+    "description": "The description of the application"
+  },
+  "browserActionTitle": {
+    "message": "GoogleCalendar工数管理",
+    "description": "The title of the browser action button"
+  },
+  "newTabTitle": {
+    "message": "新しいタブ"
+  },
+  "reloadText": {
+    "message": "リロード"
+  },
+  "openWindowText": {
+    "message": "ポップアップで開く"
+  },
+  "zoomInText": {
+    "message": "拡大"
+  },
+  "zoomOutText": {
+    "message": "縮小"
+  },
+  "zoomInMaxText": {
+    "message": "最大の拡大値です : "
+  },
+  "zoomOutMinText": {
+    "message": "最小の縮小値です : "
+  },
+  "toggleShowSideWindow": {
+    "message": "サイドウィンドウの表示/非表示"
+  }
+}
