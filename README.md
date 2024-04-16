@@ -25,6 +25,13 @@ pnpm dev:watch
 
 ```
 
+## Commit
+
+```cmd
+git-commit.cmd "コメント"
+
+```
+
 ## Lisence
 
 MIT
