@@ -27,7 +27,7 @@ const getSharedManifest = async () => {
     },
     content_scripts: [
       {
-        matches: ['<all_urls>'],
+        matches: ['https://calendar.google.com/calendar/*'],
         js: ['./dist/contentScripts/index.global.js'],
       },
     ],
@@ -85,7 +85,7 @@ export async function getManifest() {
     web_accessible_resources: [
       {
         resources: ['assets/*', 'dist/*'],
-        matches: ['https://calendar.google.com/calendar/*'],
+        matches: ['https://*/*'],
       },
     ],
     // };
