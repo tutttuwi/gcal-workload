@@ -9,6 +9,19 @@ import 'bootstrap';
 import 'popper.js';
 import App from './views/App.vue';
 import CopyButton from './views/CopyButton.vue';
+import ItemCombobox from './views/ItemCombobox.vue';
+
+import 'vuetify/styles';
+import { createVuetify } from 'vuetify';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
+const vuetify = createVuetify({
+  components,
+  directives,
+});
+
+import 'vuetify/dist/vuetify.min.css';
+import 'vuetify/dist/vuetify';
 
 // const iframeContainerWidth = ref<number>(0);
 // const showIframeContainer = ref<boolean>(true);
@@ -57,6 +70,10 @@ function createCopyEl() {
   return el;
 }
 
+/**
+ * 作成済みイベントクリック時処理
+ * @returns
+ */
 function observeScheduledEvent() {
   console.log('observeScheduledEvent() START');
   if (document.querySelector('#CopyButton')) {
@@ -78,14 +95,88 @@ function observeScheduledEvent() {
   console.log('observeScheduledEvent() END');
 }
 
+function createScriptElement(src: string) {
+  const scriptEl = document.createElement('script');
+  scriptEl.setAttribute('src', src);
+  return scriptEl;
+}
+
+function createCssEl(path: string) {
+  const styleEl = document.createElement('link');
+  styleEl.setAttribute('rel', 'stylesheet');
+  styleEl.setAttribute('href', path);
+  return styleEl;
+}
+
+/**
+ * イベント作成クリック時処理
+ * @returns
+ */
+function observeCreateEvent() {
+  console.log('observeCreateEvent() START');
+  if (document.querySelector('#ItemCombobox')) {
+    // 存在するためスキップ
+    return;
+  }
+  const targetEvent = document.querySelector('.q2nced'); // これから作成するイベントのヘッダーコンポーネント
+  if (targetEvent) {
+    console.log('targetEvent Founded!!');
+    // const wrapper = document.createElement('div');
+    const titleEl = document.querySelector('.DgKtsd');
+    createShadowDom('ItemCombobox', ItemCombobox, (wrapper: any) => {
+      titleEl?.after(wrapper);
+    });
+    // const itemCombobox = createApp(ItemCombobox);
+    // itemCombobox.use(vuetify);
+    // // copyButtion.use(SnackbarService);
+    // setupApp(itemCombobox);
+    // itemCombobox.mount(wrapper ? wrapper : '');
+  }
+  console.log('observeCreateEvent() END');
+}
+
 async function procObserve() {
   if (isObserveStatus) return;
   isObserveStatus = true;
   await sleep(1000);
   // ----------------------------------------------------
   observeScheduledEvent(); // 作成済みイベントクリック時
+  observeCreateEvent(); // イベント作成クリック時
   // ----------------------------------------------------
   isObserveStatus = false;
+}
+
+function createShadowDom(containerId: string, App: any, mountElement: Function) {
+  const container = document.createElement('div');
+  container.id = containerId;
+  // container.id = __NAME__
+  const root = document.createElement('div');
+  const styleEl = document.createElement('link');
+  const styleVuetifyEl = document.createElement('link');
+  const scriptVuetifyEl = document.createElement('script');
+  // const shadowDOM = container.attachShadow?.({ mode: __DEV__ ? 'open' : 'closed' }) || container;
+  const shadowDOM = container.attachShadow?.({ mode: true ? 'open' : 'closed' }) || container;
+  styleEl.setAttribute('rel', 'stylesheet');
+  styleEl.setAttribute('href', browser.runtime.getURL('dist/contentScripts/style.css'));
+  // styleVuetifyEl.setAttribute('rel', 'stylesheet');
+  // styleVuetifyEl.setAttribute(
+  //   'href',
+  //   'https://cdn.jsdelivr.net/npm/vuetify@2.5.8/dist/vuetify.min.css'
+  // );
+  scriptVuetifyEl.setAttribute(
+    'src',
+    browser.runtime.getURL('dist/contentScripts/index.global.js')
+  );
+  shadowDOM.appendChild(styleEl);
+  // shadowDOM.appendChild(styleVuetifyEl);
+  shadowDOM.appendChild(scriptVuetifyEl);
+  shadowDOM.appendChild(root);
+  mountElement(container);
+  // document.body.appendChild(container);
+  const app = createApp(App);
+  // setupApp(app);
+  app.use(vuetify);
+  app.mount(root);
 }
 
 // Firefox `browser.tabs.executeScript()` requires scripts return a primitive value
@@ -126,7 +217,8 @@ async function procObserve() {
   // container.id = __NAME__
   const root = document.createElement('div');
   const styleEl = document.createElement('link');
-  const shadowDOM = container.attachShadow?.({ mode: __DEV__ ? 'open' : 'closed' }) || container;
+  // const shadowDOM = container.attachShadow?.({ mode: __DEV__ ? 'open' : 'closed' }) || container;
+  const shadowDOM = container.attachShadow?.({ mode: true ? 'open' : 'closed' }) || container;
   styleEl.setAttribute('rel', 'stylesheet');
   styleEl.setAttribute('href', browser.runtime.getURL('dist/contentScripts/style.css'));
   shadowDOM.appendChild(styleEl);
@@ -136,4 +228,9 @@ async function procObserve() {
   app.use(SnackbarService);
   setupApp(app);
   app.mount(root);
+
+  document.head.appendChild(createCssEl('https://unpkg.com/vuetify@3.0.0-beta.3/dist/vuetify.css'));
+  document.body.appendChild(
+    createScriptElement(browser.runtime.getURL('dist/contentScripts/vuetify.js'))
+  );
 })();
