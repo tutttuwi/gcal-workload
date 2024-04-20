@@ -5,6 +5,9 @@ import '../style.css'
 // import { Vue3Snackbar } from "vue3-snackbar";
 // import { useSnackbar } from "vue3-snackbar";
 // const snackbar = useSnackbar();
+import 'vuetify/styles';
+import 'vuetify/dist/vuetify.min.css';
+import 'vuetify/dist/vuetify';
 
 // const show = ref(false);
 

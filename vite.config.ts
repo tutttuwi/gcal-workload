@@ -11,6 +11,8 @@ import AutoImport from 'unplugin-auto-import/vite';
 import UnoCSS from 'unocss/vite';
 import { isDev, port, r } from './scripts/utils';
 
+import styleImport from 'vite-plugin-style-import';
+
 export const sharedConfig: UserConfig = {
   root: r('src'),
   resolve: {
