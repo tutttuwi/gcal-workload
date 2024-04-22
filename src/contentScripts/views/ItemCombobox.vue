@@ -1,13 +1,19 @@
 <script setup lang="ts">
 // import { useToggle } from '@vueuse/core'
-import 'uno.css'
-import '../style.css'
+// import 'uno.css'
+// import '../style.css'
 // import { Vue3Snackbar } from "vue3-snackbar";
 // import { useSnackbar } from "vue3-snackbar";
 // const snackbar = useSnackbar();
-import 'vuetify/styles';
-import 'vuetify/dist/vuetify.min.css';
-import 'vuetify/dist/vuetify';
+// import 'vuetify/styles';
+// import 'vuetify/dist/vuetify.min.css';
+// import 'vuetify/dist/vuetify';
+
+// import FilterableDropdown from "./FilterableDropdown.vue";
+
+// import 'choices.js/public/assets/styles/choices.min.css';
+import Choices from 'choices.js';
+import 'choices.js';
 
 // const show = ref(false);
 
@@ -20,7 +26,7 @@ import 'vuetify/dist/vuetify';
 //   }, 1000);
 // }
 
-const firstItemList = ref("aaa");
+const firstItemList = ref("");
 const showDropdown = ref(true);
 
 const items = ref(['TEST-A', 'TEST-B', 'TEST-C', 'TEST-C', 'TEST-C', 'TEST-C']);
@@ -33,54 +39,55 @@ const selectItem = (item: any) => {
   showDropdown.value = false;
 };
 
+const firstItem: any = ref(null);
+
+onMounted(() => {
+  // const selectElement: Element | null = document.querySelector('#first-item');
+  console.log("onMounted!! selectElement", firstItem.value);
+  if (firstItem) {
+    // const choices = new Choices(selectElement);
+    new Choices(firstItem.value, {
+      removeItemButton: true,
+      allowHTML: true,
+      searchResultLimit: 10,
+      searchPlaceholderValue: '検索ワード',
+      noResultsText: '一致する情報は見つかりません',
+      itemSelectText: '選択'
+    });
+
+    firstItem.value.addEventListener('change', (event: any) => {
+      const selectedValue = event?.target?.value;
+      console.log(selectedValue);
+    });
+  }
+});
+
+
 </script>
 
+<style lang="scss"></style>
+
 <template>
-  <v-container>
+  <v-container id="ItemCombobox">
     <v-row>
       <v-col cols="4">
         <!-- <v-combobox theme="light" dense filled label="first-item" v-model="firstItemList"
           :items="['TEST-A', 'TEST-B', 'TEST-C']"></v-combobox> -->
-        <v-autocomplete v-model="firstItemList"
-          :items="['TEST-A', 'TEST-B', 'TEST-C', 'TEST-C', 'TEST-C', 'TEST-C', 'TEST-C', 'TEST-C', 'TEST-C', 'TEST-C', 'TEST-C']"
-          dense filled label="Filled"></v-autocomplete>
-      </v-col>
-      <v-col cols="4">
-        <v-combobox theme="light" label="first-item" :items="['test']"></v-combobox>
-      </v-col>
-      <v-col cols="4">
-        <v-combobox z-index="100000" :eager=true theme="light" dense filled label="first-item" v-model="firstItemList"
-          :items="['TEST-A', 'TEST-B', 'TEST-C']"></v-combobox>
-      </v-col>
-      <v-combobox :items="['TEST-A', 'TEST-B', 'TEST-C', 'TEST-C', 'TEST-C', 'TEST-C']" label="Select Item">
-        <template v-slot:prepend-inner>
-          <!-- v-overlay__content内に要素を追加 -->
-          <v-overlay__content>
-            <!-- ここにプルダウンの要素を追加 -->
-            <v-btn icon>
-              <v-icon>mdi-magnify</v-icon>
-            </v-btn>
-          </v-overlay__content>
-        </template>
-      </v-combobox>
+        <select name="spice" id="first-item" ref="firstItem">
+          <option value="">スパイスを選択</option>
+          <option value="garammasala">ガラムマサラ</option>
+          <option value="coriander">コリアンダー</option>
+          <option value="cumin">クミン</option>
+        </select>
 
-      <v-container>
-        <v-combobox v-model="selectedItem" :items="items" label="Select Item" dense outlined>
-          <!-- プルダウンの要素を追加 -->
-          <template v-slot:append-outer>
-            <v-btn icon @click="toggleDropdown">
-              <v-icon>mdi-chevron-down</v-icon>
-            </v-btn>
-          </template>
-          <template v-if="showDropdown">
-            <v-list>
-              <v-list-item v-for="item in items" :key="item" @click="selectItem(item)">
-                <v-list-item-title>{{ item }}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </template>
-        </v-combobox>
-      </v-container>
+        <v-select v-bind:options="['small', 'medium', 'large']">
+        </v-select>
+
+        <!-- <FilterableDropdown v-model="firstItemList" :items="items" :showEmptyItem="true" :disabled="false"
+          :ignoreCase="true" emptyItemValue="SAMPLE_EMPTY_VALUE" emptyItemText="" placeholder="Please select..."
+          name="fruit" idKey="id" valueKey="name" textKey="name" filterTargetKey="name" /> -->
+
+      </v-col>
 
     </v-row>
   </v-container>

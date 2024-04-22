@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // import { useToggle } from '@vueuse/core'
-import 'uno.css'
+// import 'uno.css'
 import '../style.css'
 
 // import { Vue3Snackbar } from 'vue3-snackbar';

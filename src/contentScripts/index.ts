@@ -1,29 +1,30 @@
 import { onMessage } from 'webext-bridge';
 import { createApp } from 'vue';
-import PopupApp from '../popup/Popup.vue';
 import '../styles';
 import { setupApp } from '~/logic/common-setup';
-import { SnackbarService } from 'vue3-snackbar';
-import 'vue3-snackbar/styles';
-import 'bootstrap';
-import 'popper.js';
 import App from './views/App.vue';
 import CopyButton from './views/CopyButton.vue';
 import ItemCombobox from './views/ItemCombobox.vue';
 
-import 'vuetify/styles';
-import { createVuetify } from 'vuetify';
-import * as components from 'vuetify/components';
-import * as directives from 'vuetify/directives';
-const vuetify = createVuetify({
-  components,
-  directives,
-});
+// import 'vuetify/styles';
+// import { createVuetify } from 'vuetify';
+// import * as components from 'vuetify/components';
+// import * as directives from 'vuetify/directives';
+// const vuetify = createVuetify({
+//   components,
+//   directives,
+// });
 
-import 'vuetify/dist/vuetify.min.css';
-import 'vuetify/dist/vuetify';
+// import 'vuetify/dist/vuetify.min.css';
+// import 'vuetify/dist/vuetify';
 
-import 'construct-style-sheets-polyfill';
+// import 'construct-style-sheets-polyfill';
+
+// import 'choices.js/public/assets/styles/base.min.css';
+import 'choices.js/public/assets/styles/choices.min.css';
+import 'choices.js';
+
+// import vSelect from 'vue-select-3';
 
 // スタイルシートをロードして適用する関数
 // async function applyStylesheet(element, url) {
@@ -36,11 +37,6 @@ import 'construct-style-sheets-polyfill';
 
 // const iframeContainerWidth = ref<number>(0);
 // const showIframeContainer = ref<boolean>(true);
-
-let iframeContainerWidth = 500;
-let showIframeContainer = false;
-let defaultBodyWidth = document.body.style.width;
-// const defaultSideWindowWidth = 300;
 
 let isObserveStatus = false;
 
@@ -162,26 +158,28 @@ async function createShadowDom(containerId: string, App: any, mountElement: Func
   container.id = containerId;
   // container.id = __NAME__
   const root = document.createElement('div');
-  const styleEl = document.createElement('link');
-  const styleVuetifyEl = document.createElement('link');
-  // const scriptVuetifyEl = document.createElement('script');
-  const shadowDOM = container.attachShadow?.({ mode: __DEV__ ? 'open' : 'closed' }) || container;
   // const shadowDOM = container.attachShadow?.({ mode: true ? 'open' : 'closed' }) || container;
+  const shadowDOM = container;
+  // const shadowDOM = container.attachShadow?.({ mode: __DEV__ ? 'open' : 'closed' }) || container;
+
+  const styleEl = document.createElement('link');
   styleEl.setAttribute('rel', 'stylesheet');
   styleEl.setAttribute('href', browser.runtime.getURL('dist/contentScripts/style.css'));
-  styleVuetifyEl.setAttribute('rel', 'stylesheet');
-  styleVuetifyEl.setAttribute(
-    'href',
-    // 'https://cdn.jsdelivr.net/npm/modern-css-reset/dist/reset.min.css'
-    'https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css'
-  );
-  // scriptVuetifyEl.setAttribute(
-  //   'src',
-  //   browser.runtime.getURL('dist/contentScripts/index.global.js')
-  // );
-  shadowDOM.appendChild(styleVuetifyEl);
   shadowDOM.appendChild(styleEl);
-  // shadowDOM.appendChild(scriptVuetifyEl);
+
+  // const styleVuetifyEl = document.createElement('link');
+  // styleVuetifyEl.setAttribute('rel', 'stylesheet');
+  // styleVuetifyEl.setAttribute(
+  //   'href',
+  //   // 'https://cdn.jsdelivr.net/npm/modern-css-reset/dist/reset.min.css'
+  //   'https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css'
+  // );
+  // shadowDOM.appendChild(styleVuetifyEl);
+
+  const scriptVuetifyEl = document.createElement('script');
+  scriptVuetifyEl.setAttribute('src', browser.runtime.getURL('dist/contentScripts/choices.min.js'));
+  shadowDOM.appendChild(scriptVuetifyEl);
+
   console.log(browser.runtime.getURL('dist/contentScripts/style.css'));
   // await applyLocalStylesheet(shadowDOM, browser.runtime.getURL('dist/contentScripts/style.css'));
   // await applyLocalStylesheet(shadowDOM, "https://cdn.jsdelivr.net/npm/vuetify@2.5.8/dist/vuetify.min.css");
@@ -190,7 +188,8 @@ async function createShadowDom(containerId: string, App: any, mountElement: Func
   // document.body.appendChild(container);
   const app = createApp(App);
   // setupApp(app);
-  app.use(vuetify);
+  // app.use(vuetify);
+  // app.component('v-select', vSelect);
   app.mount(root);
 }
 
@@ -248,9 +247,14 @@ async function applyLocalStylesheet(element: any, url: string) {
   styleEl.setAttribute('href', browser.runtime.getURL('dist/contentScripts/style.css'));
   shadowDOM.appendChild(styleEl);
   shadowDOM.appendChild(root);
+
+  const scriptVuetifyEl = document.createElement('script');
+  scriptVuetifyEl.setAttribute('src', browser.runtime.getURL('dist/contentScripts/choices.min.js'));
+  document.body.appendChild(scriptVuetifyEl);
+
   document.body.appendChild(container);
   const app = createApp(App);
-  app.use(SnackbarService);
+  // app.use(SnackbarService);
   setupApp(app);
   app.mount(root);
 
