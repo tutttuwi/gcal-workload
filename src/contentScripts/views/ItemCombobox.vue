@@ -9,7 +9,7 @@
 // import 'vuetify/dist/vuetify.min.css';
 // import 'vuetify/dist/vuetify';
 
-// import FilterableDropdown from "./FilterableDropdown.vue";
+import FilterableDropdown from "./FilterableDropdown.vue";
 
 // import 'choices.js/public/assets/styles/choices.min.css';
 import Choices from 'choices.js';
@@ -39,56 +39,125 @@ const selectItem = (item: any) => {
   showDropdown.value = false;
 };
 
-const firstItem: any = ref(null);
+const largeItem: any = ref(null);
+const midiumItem: any = ref(null);
+const smallItem: any = ref(null);
+
+function setChoices(item: Ref<Element>, callback: Function) {
+  const choices = new Choices(item.value, {
+    // removeItemButton: true,
+    allowHTML: true,
+    searchResultLimit: 10,
+    searchPlaceholderValue: '検索ワード',
+    noResultsText: '一致する情報は見つかりません',
+    itemSelectText: '選択'
+  });
+
+  item.value.addEventListener('change', callback());
+}
+
+function choicesClickFuncForShadowDom(event: Event) {
+  event.stopPropagation();
+  const dropdown = this.querySelector('.choices__list.choices__list--dropdown');
+
+  // get the input that is being used with in the choices JS
+  const dropdown_input = this.querySelector('.choices__input.choices__input--cloned');
+
+  if (!(dropdown).classList.contains('is-active')) {
+    (dropdown).classList.add('is-active');
+    (dropdown).setAttribute("aria-expanded", "true");
+
+    // focus on the input element 
+    dropdown_input.focus();
+
+  } else {
+    (dropdown).classList.remove('is-active');
+    (dropdown).setAttribute("aria-expanded", "false");
+
+  }
+}
+
 
 onMounted(() => {
   // const selectElement: Element | null = document.querySelector('#first-item');
-  console.log("onMounted!! selectElement", firstItem.value);
-  if (firstItem) {
-    // const choices = new Choices(selectElement);
-    new Choices(firstItem.value, {
-      removeItemButton: true,
-      allowHTML: true,
-      searchResultLimit: 10,
-      searchPlaceholderValue: '検索ワード',
-      noResultsText: '一致する情報は見つかりません',
-      itemSelectText: '選択'
-    });
+  console.log("onMounted!! selectElement", largeItem.value, midiumItem.value, smallItem.value);
+  // const choices = new Choices(selectElement);
+  setChoices(largeItem, (event: any) => {
+    const selectedValue = event?.target?.value;
+    console.log(selectedValue);
+  });
+  // largeItem.value.addEventListener("click", choicesClickFuncForShadowDom(event));
+  setChoices(midiumItem, (event: any) => {
+    const selectedValue = event?.target?.value;
+    console.log(selectedValue);
+  });
+  setChoices(smallItem, (event: any) => {
+    const selectedValue = event?.target?.value;
+    console.log(selectedValue);
+  });
 
-    firstItem.value.addEventListener('change', (event: any) => {
-      const selectedValue = event?.target?.value;
-      console.log(selectedValue);
-    });
-  }
+  // document?.querySelector("#ItemCombobox")?.shadowRoot?.querySelectorAll(".choices")?.forEach(element => {
+  //   element.addEventListener("click", choicesClickFuncForShadowDom);
+  // });
+
 });
 
-
+const selectedValue = ref(null);
 </script>
 
 <style lang="scss"></style>
 
 <template>
-  <v-container id="ItemCombobox">
-    <v-row>
-      <v-col cols="4">
-        <!-- <v-combobox theme="light" dense filled label="first-item" v-model="firstItemList"
+  <container>
+    <div class="" style="display: flex;
+    align-items: center;
+    justify-content: start;
+    padding-left: 68px;
+    width: 500px;">
+      <FilterableDropdown v-model="selectedValue" :items="items" :showEmptyItem="true" :disabled="false"
+        :ignoreCase="true" emptyItemValue="SAMPLE_EMPTY_VALUE" emptyItemText="" placeholder="Please select..."
+        name="fruit" idKey="id" valueKey="name" textKey="name" filterTargetKey="name" />
+      <!-- <div class="col-4 gw-popup-select"> -->
+      <!-- <v-combobox theme="light" dense filled label="first-item" v-model="firstItemList"
           :items="['TEST-A', 'TEST-B', 'TEST-C']"></v-combobox> -->
-        <select name="spice" id="first-item" ref="firstItem">
-          <option value="">スパイスを選択</option>
-          <option value="garammasala">ガラムマサラ</option>
-          <option value="coriander">コリアンダー</option>
-          <option value="cumin">クミン</option>
+      <!-- <select name="largeItem" id="large-item" ref="largeItem">
+          <option value="">大項目</option>
+          <option value="garammasala">プロジェクトA</option>
+          <option value="coriander">プロジェクトB</option>
+          <option value="cumin">プロジェクトC</option>
+          <option value="cumin">プロジェクトX-長期化刷新DX対応の続き</option>
         </select>
+         -->
+      <!-- <v-select v-bind:options="['small', 'medium', 'large']">
+        </v-select> -->
 
-        <v-select v-bind:options="['small', 'medium', 'large']">
-        </v-select>
-
-        <!-- <FilterableDropdown v-model="firstItemList" :items="items" :showEmptyItem="true" :disabled="false"
+      <!-- <FilterableDropdown v-model="firstItemList" :items="items" :showEmptyItem="true" :disabled="false"
           :ignoreCase="true" emptyItemValue="SAMPLE_EMPTY_VALUE" emptyItemText="" placeholder="Please select..."
           name="fruit" idKey="id" valueKey="name" textKey="name" filterTargetKey="name" /> -->
 
-      </v-col>
+      <!-- </div> -->
 
-    </v-row>
-  </v-container>
+      <!-- <div class="col-4 gw-popup-select">
+        <select name="midiumItem" id="midium-item" ref="midiumItem">
+          <option value="">中項目</option>
+          <option value="garammasala">プロジェクトA</option>
+          <option value="coriander">プロジェクトB</option>
+          <option value="cumin">プロジェクトC</option>
+          <option value="cumin">プロジェクトX-長期化刷新DX対応の続き</option>
+        </select>
+
+      </div>
+      <div class="col-4 gw-popup-select">
+        <select name="smallItem" id="small-item" ref="smallItem">
+          <option value="">小項目</option>
+          <option value="garammasala">プロジェクトA</option>
+          <option value="coriander">プロジェクトB</option>
+          <option value="cumin">プロジェクトC</option>
+          <option value="cumin">プロジェクトX-長期化刷新DX対応の続き</option>
+        </select>
+
+      </div> -->
+
+    </div>
+  </container>
 </template>

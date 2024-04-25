@@ -158,8 +158,8 @@ async function createShadowDom(containerId: string, App: any, mountElement: Func
   container.id = containerId;
   // container.id = __NAME__
   const root = document.createElement('div');
-  // const shadowDOM = container.attachShadow?.({ mode: true ? 'open' : 'closed' }) || container;
-  const shadowDOM = container;
+  const shadowDOM = container.attachShadow?.({ mode: true ? 'open' : 'closed' }) || container;
+  // const shadowDOM = container;
   // const shadowDOM = container.attachShadow?.({ mode: __DEV__ ? 'open' : 'closed' }) || container;
 
   const styleEl = document.createElement('link');

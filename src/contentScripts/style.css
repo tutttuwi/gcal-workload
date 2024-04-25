@@ -11,3 +11,18 @@
 .v-overlay__content.v-combobox__content {
   z-index: 10000;
 } */
+
+.choices__item {
+  text-wrap: nowrap;
+  /* overflow: hidden; */
+}
+
+#ItemCombobox {
+  margin-left: 68px;
+  margin-bottom: 10px;
+  display: block;
+}
+.gw-popup-select {
+  padding: 0px;
+  width: 100%;
+}
